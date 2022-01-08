@@ -29,5 +29,21 @@ namespace Costinas_Vlad_Lab10
             await App.Database.DeleteShopListAsync(slist);
             await Navigation.PopAsync();
         }
+        async void OnChooseButtonClicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new ProductPage((Models.ShopList)
+           this.BindingContext)
+            {
+                BindingContext = new Models.Product()
+            });
+
+        }
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+            var shopl = (Models.ShopList)BindingContext;
+
+            listView.ItemsSource = await App.Database.GetListProductsAsync(shopl.ID);
+        }
     }
 }
